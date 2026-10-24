@@ -6,6 +6,9 @@ const suggestions = document.querySelector('#suggestions');
 const emptyState = document.querySelector('#empty-state');
 const medicineView = document.querySelector('#medicine-view');
 const animalSelect = document.querySelector('#animal-select');
+const activeAnimalIndicator = document.querySelector('#active-animal-indicator');
+const activeAnimalName = document.querySelector('#active-animal-name');
+const activeAnimalIcon = document.querySelector('#active-animal-icon');
 const weightInput = document.querySelector('#weight-input');
 const weightMessage = document.querySelector('#weight-message');
 const doseResults = document.querySelector('#dose-results');
@@ -142,6 +145,9 @@ function readMedicines(nextWorkbook) {
 
 function renderAnimalState() {
   const medicines = dataByAnimal.get(activeAnimal) ?? [];
+  activeAnimalName.textContent = animalLabel(activeAnimal);
+  activeAnimalIcon.textContent = animalIcon(activeAnimal);
+  activeAnimalIndicator.hidden = !activeAnimal;
   medicineCount.textContent = `${medicines.length.toLocaleString('sv-SE')} läkemedel i listan`;
   if (selectedMedicine) renderSelectedMedicine();
 }
@@ -152,6 +158,21 @@ function normalize(value) {
 
 function animalLabel(sheetName) {
   return sheetName.replace(/\s+läkemedel$/i, '');
+}
+
+function animalIcon(sheetName) {
+  const animal = normalize(animalLabel(sheetName));
+  if (animal.includes('hund')) return '🐕';
+  if (animal.includes('katt')) return '🐈';
+  if (animal.includes('kanin')) return '🐇';
+  if (animal.includes('hast')) return '🐎';
+  if (animal.includes('ko') || animal.includes('not')) return '🐄';
+  if (animal.includes('far') || animal.includes('lamm')) return '🐑';
+  if (animal.includes('gris')) return '🐖';
+  if (animal.includes('get')) return '🐐';
+  if (animal.includes('fagel')) return '🐦';
+  if (animal.includes('mus')) return '🐁';
+  return '🐾';
 }
 
 function searchMedicines(query) {

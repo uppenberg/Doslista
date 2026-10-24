@@ -21,13 +21,17 @@ button { color: inherit; }
 
 .app-shell { min-height: 100vh; }
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
   height: 76px;
   padding: 0 max(5vw, calc((100vw - 1180px) / 2));
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e9eeea;
-  background: rgba(255, 255, 255, .76);
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(12px);
 }
 .brand {
   display: inline-flex;
@@ -47,6 +51,28 @@ button { color: inherit; }
   color: white;
   background: var(--green);
   font: 700 24px ui-sans-serif, system-ui, sans-serif;
+}
+.active-animal-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 6px 9px 6px 14px;
+  border: 1px solid #cfe0d3;
+  border-radius: 999px;
+  background: #f0f7f1;
+  color: #275d3e;
+  font-size: 14px;
+  font-weight: 700;
+}
+.active-animal-icon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #dceee0;
+  font-size: 19px;
 }
 
 main { width: min(100% - 40px, 1080px); margin: 0 auto; }
