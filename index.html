@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7f4" />
+    <title>Doslista – läkemedel</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Doslista, startsida">
+          <span class="brand-mark" aria-hidden="true">+</span>
+          <span>doslista</span>
+        </a>
+      </header>
+
+      <main>
+        <section class="intro">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> LÄKEMEDELSÖVERSIKT</div>
+          <h1>Hitta rätt läkemedel<span>.</span></h1>
+          <p>Sök i doslistan och kontrollera uppgifterna för valt djur.</p>
+        </section>
+
+        <section class="search-panel" aria-label="Sök läkemedel">
+          <label class="animal-picker" for="animal-select">
+            <span>Välj djur</span>
+            <span class="animal-select-wrap">
+              <select id="animal-select" aria-label="Välj djur"></select>
+              <span aria-hidden="true">⌄</span>
+            </span>
+          </label>
+          <label class="search-label" for="medicine-search">Sök läkemedel</label>
+          <div class="search-box">
+            <span class="search-icon" aria-hidden="true"></span>
+            <input
+              id="medicine-search"
+              type="search"
+              placeholder="Sök på benämning, substans eller ATC-kod…"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="suggestions"
+              aria-expanded="false"
+            />
+            <kbd>⌘ K</kbd>
+          </div>
+          <div id="suggestions" class="suggestions" role="listbox" hidden></div>
+          <div class="search-hint">
+            <span id="medicine-count">Läser läkemedel…</span>
+            <span>Sökfältet söker i Benämning, Substans och Kategori ATC</span>
+          </div>
+        </section>
+
+        <section id="empty-state" class="empty-state" aria-live="polite">
+          <div class="empty-icon" aria-hidden="true">⌕</div>
+          <h2>Börja med att söka</h2>
+          <p>Välj Hund eller Katt och skriv ett läkemedel, en substans eller en ATC-kod.</p>
+        </section>
+
+        <section id="medicine-view" class="medicine-view" hidden aria-live="polite">
+          <div class="medicine-heading">
+            <div>
+              <div id="selected-species" class="selected-species"></div>
+              <h2 id="medicine-name"></h2>
+              <p id="medicine-subtitle" class="medicine-subtitle"></p>
+            </div>
+            <button id="clear-selection" class="clear-button" type="button">Byt läkemedel <span aria-hidden="true">×</span></button>
+          </div>
+
+          <div class="detail-grid">
+            <article class="detail-card">
+              <div class="card-heading">
+                <div>
+                  <span class="section-kicker">LÄKEMEDELSINFORMATION</span>
+                  <h3>Kontrollera uppgifterna</h3>
+                </div>
+              </div>
+              <div id="medicine-details" class="detail-list"></div>
+              <div id="remark-card" class="remark-card" hidden>
+                <div class="remark-title"><span aria-hidden="true">!</span> Anmärkning</div>
+                <p id="medicine-remark"></p>
+              </div>
+            </article>
+
+            <article class="dose-card">
+              <div class="card-heading">
+                <div>
+                  <span class="section-kicker">DOSBERÄKNING</span>
+                  <h3>Vikt och resultat</h3>
+                </div>
+                <span class="formula-badge"><span class="formula-dot"></span> Beräkning</span>
+              </div>
+              <label class="weight-label" for="weight-input">
+                Vikt
+              </label>
+              <div class="weight-field">
+                <input id="weight-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Ange vikt" />
+                <span>kg</span>
+              </div>
+              <p id="weight-message" class="weight-message" hidden>Vikten måste vara ett tal större än 0 kg.</p>
+              <p class="weight-note">Resultaten uppdateras när du ändrar vikten.</p>
+              <div class="results-heading">
+                <span>RESULTAT</span>
+              </div>
+              <div id="dose-results" class="result-grid"></div>
+              <p id="formula-message" class="formula-message" hidden></p>
+            </article>
+          </div>
+          <p class="verification-note"><span aria-hidden="true">✓</span> Kontrollera alltid dos och anmärkning mot originaldokumentet före användning.</p>
+        </section>
+      </main>
+      <footer>Doslista</footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
