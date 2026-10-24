@@ -1,6 +1,4 @@
-import * as XLSX from '@e965/xlsx';
-import { HyperFormula } from 'hyperformula';
-import './style.css';
+(() => {
 
 const medicineCount = document.querySelector('#medicine-count');
 const searchInput = document.querySelector('#medicine-search');
@@ -219,8 +217,8 @@ function restoreWeightCell(medicine) {
 
 function updateWeight() {
   if (!selectedMedicine) return;
-  const rawWeight = weightInput.value;
-  const weight = rawWeight === '' ? null : Number(rawWeight);
+  const rawWeight = weightInput.value.trim();
+  const weight = rawWeight === '' ? null : Number(rawWeight.replace(',', '.'));
   const validWeight = weight === null || (Number.isFinite(weight) && weight > 0);
   weightMessage.hidden = validWeight;
   formulaEngine.setCellContents(cellAddress(selectedMedicine, 12), [[validWeight && weight !== null ? weight : null]]);
@@ -316,6 +314,7 @@ document.addEventListener('click', (event) => {
   if (!event.target.closest('.search-panel')) hideSuggestions();
 });
 weightInput.addEventListener('input', updateWeight);
+weightInput.addEventListener('focus', () => weightInput.select());
 document.querySelector('#clear-selection').addEventListener('click', () => {
   if (lastOverriddenMedicine) restoreWeightCell(lastOverriddenMedicine);
   selectedMedicine = undefined;
@@ -329,7 +328,7 @@ document.querySelector('#clear-selection').addEventListener('click', () => {
 });
 async function loadDefaultWorkbook() {
   try {
-    const response = await fetch('/Doslista.xlsx');
+    const response = await fetch('./Doslista.xlsx');
     if (!response.ok) throw new Error(`Kunde inte läsa Doslista.xlsx (${response.status}).`);
     const data = await response.arrayBuffer();
     readMedicines(XLSX.read(data, { type: 'array', cellFormula: true, cellNF: true }));
@@ -340,3 +339,4 @@ async function loadDefaultWorkbook() {
 }
 
 loadDefaultWorkbook();
+})();
