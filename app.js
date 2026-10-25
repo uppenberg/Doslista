@@ -11,7 +11,12 @@ const activeAnimalName = document.querySelector('#active-animal-name');
 const activeAnimalIcon = document.querySelector('#active-animal-icon');
 const weightInput = document.querySelector('#weight-input');
 const weightMessage = document.querySelector('#weight-message');
+const weightLabel = document.querySelector('.weight-label');
+const weightField = document.querySelector('.weight-field');
+const weightNote = document.querySelector('.weight-note');
+const resultsHeading = document.querySelector('#results-heading');
 const doseResults = document.querySelector('#dose-results');
+const doseUnavailable = document.querySelector('#dose-unavailable');
 const formulaMessage = document.querySelector('#formula-message');
 const resultColumns = [
   { column: 13, label: 'Dos/djur från' },
@@ -289,6 +294,18 @@ function renderSelectedMedicine() {
 function renderResults() {
   if (!selectedMedicine) return;
   doseResults.replaceChildren();
+  const missingDoseLimit = [selectedMedicine.raw[7], selectedMedicine.raw[8]]
+    .some((value) => value === null || value === undefined || String(value).trim() === '');
+  doseUnavailable.hidden = !missingDoseLimit;
+  weightLabel.hidden = missingDoseLimit;
+  weightField.hidden = missingDoseLimit;
+  weightMessage.hidden = missingDoseLimit || weightInput.value === '' || Number(weightInput.value.replace(',', '.')) > 0;
+  weightNote.hidden = missingDoseLimit;
+  resultsHeading.hidden = missingDoseLimit;
+  doseResults.hidden = missingDoseLimit;
+  formulaMessage.hidden = true;
+  if (missingDoseLimit) return;
+
   let hasFormulaError = false;
   for (const { column, label } of resultColumns) {
     const result = getEngineValue(selectedMedicine, column);
